@@ -22,8 +22,22 @@ Eigen::Matrix<R,4,1> ComputeReshapingParameters(const Eigen::Matrix<R,3,1>& act_
 }
 
 template <typename R>
-typename GaussianProcessModulatedDS<R>::Mat GaussianProcessModulatedDS<R>::ModulationFunction(const Vec& in){
+typename GaussianProcessModulatedDS<R>::Mat GaussianProcessModulatedDS<R>::ModulationFunction(const Vec& angle_axis, R speed_scaling){
+  auto angle = angle_axis.norm();
   Mat modulation_matrix;
+  if(angle < MIN_ANGLE)
+    modulation_matrix.setIdentity();
+  else{
+    auto axis = angle_axis/angle;
+    Eigen::AngleAxis<R> aa(angle,axis);
+    modulation_matrix = aa.toRotationMatrix();
+  }
+  modulation_matrix *= (speed_scaling+1);
+}
+
+
+template <typename R>
+typename GaussianProcessModulatedDS<R>::Mat GaussianProcessModulatedDS<R>::ModulationFunction(const Vec& in){
   Eigen::Matrix<R,4,1> theta_hat;
   theta_hat = gpr_->DoRegression(in);
   Eigen::Matrix<R,3,1> aa_hat;
@@ -31,16 +45,7 @@ typename GaussianProcessModulatedDS<R>::Mat GaussianProcessModulatedDS<R>::Modul
     {
       aa_hat(k) = theta_hat(k);
     }
-  auto angle = aa_hat.norm();
-  if(angle < MIN_ANGLE)
-    modulation_matrix.setIdentity();
-  else{
-    auto axis = aa_hat/angle;
-    Eigen::AngleAxis<R> aa(angle,axis);
-    modulation_matrix = aa.toRotationMatrix();
-  }
-  modulation_matrix *= theta_hat(3);
-  return modulation_matrix;
+  return ModulationFunction(aa_hat,theta_hat(3));
 }
 
 
