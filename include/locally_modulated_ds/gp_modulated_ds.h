@@ -12,12 +12,15 @@ class GaussianProcessModulatedDS : public LocallyModulatedDS<Eigen::Matrix<realt
 
  private:
   static const realtype MIN_ANGLE;
-  typedef Eigen::Matrix<realtype,3,1> Vec;
-  typedef Eigen::Matrix<realtype,3,3> Mat;
   std::unique_ptr<GaussianProcessRegression<realtype> > gpr_;
   
  public:
-  GaussianProcessModulatedDS(std::function<Vec(Vec)> original_dynamics) : LocallyModulatedDS<Vec,Mat>(original_dynamics), gpr_(new GaussianProcessRegression<realtype>(3,3)){};
+
+    typedef Eigen::Matrix<realtype,3,1> Vec;
+    typedef Eigen::Matrix<realtype,3,3> Mat;
+    typedef std::function<Vec(Vec)> GPDMDSFunction;
+
+    GaussianProcessModulatedDS(GPDMDSFunction original_dynamics) : LocallyModulatedDS<Vec,Mat>(original_dynamics), gpr_(new GaussianProcessRegression<realtype>(3,3)){};
   
 
   virtual ~GaussianProcessModulatedDS(){};
