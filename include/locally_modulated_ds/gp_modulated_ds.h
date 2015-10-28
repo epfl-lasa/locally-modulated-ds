@@ -18,9 +18,9 @@ class GaussianProcessModulatedDS : public LocallyModulatedDS<Eigen::Matrix<realt
 
     typedef Eigen::Matrix<realtype,3,1> Vec;
     typedef Eigen::Matrix<realtype,3,3> Mat;
-    typedef std::function<Vec(Vec)> GPDMDSFunction;
+    typedef std::function<Vec(Vec)> DynamicalSystem;
 
-    GaussianProcessModulatedDS(GPDMDSFunction original_dynamics) : LocallyModulatedDS<Vec,Mat>(original_dynamics), gpr_(new GaussianProcessRegression<realtype>(3,3)){};
+    GaussianProcessModulatedDS(DynamicalSystem original_dynamics) : LocallyModulatedDS<Vec,Mat>(original_dynamics), gpr_(new GaussianProcessRegression<realtype>(3,3)){};
   
 
   virtual ~GaussianProcessModulatedDS(){};
