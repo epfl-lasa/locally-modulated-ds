@@ -55,6 +55,8 @@ target_link_libraries(run_snippet_gpmds snippet_gpmds)
 ## Add gtest based cpp test target and link libraries
 catkin_add_gtest(lmds-test test/test_locally_modulated_ds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
 catkin_add_gtest(gpmds-test test/test_gp_modulated_ds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+catkin_add_gtest(snippet-test test/test_snippet_gpmds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+target_link_libraries(snippet-test snippet_gpmds)
 if(TARGET ${PROJECT_NAME}-test)
   # target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 endif()
