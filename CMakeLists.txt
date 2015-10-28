@@ -38,9 +38,14 @@ catkin_package(
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
-# add_library(locally_modulated_ds
-#   src/${PROJECT_NAME}/locally_modulated_ds.cpp
-# )
+add_library(snippet_gpmds
+        src/snippet_gpmds.cpp
+)
+
+add_executable(run_snippet_gpmds
+        src/run_snippet_gpmds.cpp
+)
+target_link_libraries(run_snippet_gpmds snippet_gpmds)
 
 
 #############
