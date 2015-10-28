@@ -20,9 +20,6 @@ class SnippetGPMDS {
     virtual ~SnippetGPMDS();
 
     std::unique_ptr<GaussianProcessModulatedDS<double>> gp_mds_;
-
-    GaussianProcessModulatedDS<double>::DynamicalSystem original_dynamics_;
-
 };
 
 

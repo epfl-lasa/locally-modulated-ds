@@ -8,8 +8,8 @@ SnippetGPMDS::SnippetGPMDS()
 }
 
 SnippetGPMDS::SnippetGPMDS(
-        GaussianProcessModulatedDS<double>::DynamicalSystem original_dynamics)
-        : original_dynamics_(original_dynamics) {
+        GaussianProcessModulatedDS<double>::DynamicalSystem original_dynamics) {
+  gp_mds_.reset(new GaussianProcessModulatedDS<double>(original_dynamics));
 
 }
 
