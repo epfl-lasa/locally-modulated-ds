@@ -32,7 +32,8 @@ typename GaussianProcessModulatedDS<R>::Mat GaussianProcessModulatedDS<R>::Modul
     Eigen::AngleAxis<R> aa(angle,axis);
     modulation_matrix = aa.toRotationMatrix();
   }
-  modulation_matrix *= (speed_scaling+1);
+    modulation_matrix *= (speed_scaling+1);
+    return modulation_matrix;
 }
 
 
