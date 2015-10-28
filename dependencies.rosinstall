@@ -1,0 +1,1 @@
+- git: {local-name: gaussian-process-regression, uri: 'git@github.com:epfl-lasa/gaussian-process-regression.git'}
