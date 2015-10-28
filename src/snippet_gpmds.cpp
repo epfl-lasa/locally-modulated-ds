@@ -1,7 +1,7 @@
 //
 // Author: Felix Duvallet <felix.duvallet@epfl.ch>
 
-#include "snippet_gpmds.h"
+#include "snippet_gpmds/snippet_gpmds.h"
 
 SnippetGPMDS::SnippetGPMDS()
         : SnippetGPMDS(nullptr) {
