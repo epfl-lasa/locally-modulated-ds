@@ -14,6 +14,8 @@ TEST(Basic,CreateObject){
   GaussianProcessModulatedDS<float> gpmds(original_dynamics);
 }
 
+ 
+
 
 
 };

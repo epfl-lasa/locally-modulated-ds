@@ -39,8 +39,7 @@ typename GaussianProcessModulatedDS<R>::Mat GaussianProcessModulatedDS<R>::Modul
     Eigen::AngleAxis<R> aa(angle,axis);
     modulation_matrix = aa.toRotationMatrix();
   }
-  modulation_matrix *= 
-
+  modulation_matrix *= theta_hat(3);
   return modulation_matrix;
 }
 
