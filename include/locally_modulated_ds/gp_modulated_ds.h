@@ -33,6 +33,7 @@ class GaussianProcessModulatedDS
     virtual Mat ModulationFunction(const Vec &in);
     Mat ModulationFunction(const Vec& aa,realtype speed_scaling);
 
+    DynamicalSystem getOriginalDynamics();
 
     virtual void AddData(const Vec &new_pos, const Vec &new_vel);
 };

@@ -55,3 +55,7 @@ void GaussianProcessModulatedDS<R>::AddData(const Vec& new_pos, const Vec& new_v
   gpr_->AddTrainingData(new_pos, reshaping_params);
 }
 
+template <typename R>
+typename GaussianProcessModulatedDS<R>::DynamicalSystem GaussianProcessModulatedDS<R>::getOriginalDynamics() {
+  return this->original_dynamics_;
+}
