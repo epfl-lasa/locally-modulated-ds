@@ -9,7 +9,7 @@ class LocallyModulatedDS {
     LocallyModulatedDS() { };
 
     LocallyModulatedDS(std::function<Vec(Vec)> original_dynamics) {
-      set_original_dynamics(original_dynamics_);
+      set_original_dynamics(original_dynamics);
     };
 
     void set_original_dynamics(std::function<Vec(Vec)> original_dynamics) {
