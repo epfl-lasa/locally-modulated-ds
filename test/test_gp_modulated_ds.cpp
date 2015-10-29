@@ -32,6 +32,7 @@ namespace{
     }
     return mat;
   }
+
   // void load_data(const char *fname, vector<input_type> &inputs, vector<output_type> &outputs, int input_dim, int output_dim) {
   //   input_type inp,tinp;
   //   output_type outp,toutp;
@@ -98,7 +99,7 @@ namespace{
     compare_matrices(gpmds_result, correct_result);
   }
 
-
+  
 
 };
 
