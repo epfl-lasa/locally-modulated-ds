@@ -60,3 +60,32 @@ template <typename R>
 typename GaussianProcessModulatedDS<R>::DynamicalSystem GaussianProcessModulatedDS<R>::getOriginalDynamics() {
   return this->original_dynamics_;
 }
+
+// batch add data stored in std::vectors 
+template <typename R>
+void GaussianProcessModulatedDS<R>::AddData(const std::vector<Vec>& new_pos, const std::vector<Vec>& new_vel){
+  // create matrices and put all the data there
+  Eigen::Matrix<R,3,Eigen::Dynamic> inputs;
+  Eigen::Matrix<R,4,Eigen::Dynamic> reshaping_params;
+  reshaping_params.resize(4,new_vel.size());
+  inputs.resize(4,new_vel.size());
+  for (size_t k=0; k<new_pos.size(); ++k)
+    {
+      reshaping_params.col(k) = ComputeReshapingParameters(new_vel[k], this->original_dynamics_(new_pos[k]));
+      inputs.col(k) = new_pos[k];
+    } 
+  gpr_->AddTrainingDataBatch(inputs, reshaping_params);
+}
+
+// batch add data along Eigen::Matrix columns
+template <typename R>
+void GaussianProcessModulatedDS<R>::AddData(const Eigen::Matrix<R,3,Eigen::Dynamic>& new_pos, const Eigen::Matrix<R,3,Eigen::Dynamic>& new_vel ){
+  Eigen::Matrix<R,4,Eigen::Dynamic> reshaping_params;
+  reshaping_params.resize(4,new_vel.cols());
+  for (size_t k=0; k<reshaping_params.cols(); ++k)
+    {
+      reshaping_params.col(k) = ComputeReshapingParameters(new_vel.col(k), this->original_dynamics_(new_pos.col(k)));
+    }
+  gpr_->AddTrainingDataBatch(new_pos, reshaping_params);
+}
+

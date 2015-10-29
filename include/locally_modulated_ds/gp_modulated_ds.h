@@ -34,8 +34,16 @@ class GaussianProcessModulatedDS
     Mat ModulationFunction(const Vec& aa,realtype speed_scaling);
 
     DynamicalSystem getOriginalDynamics();
-
-    virtual void AddData(const Vec &new_pos, const Vec &new_vel);
+    // add a single training point
+    void AddData(const Vec &new_pos, const Vec &new_vel);
+    // batch add with data in std vector
+    void AddData(const std::vector<Vec>& new_pos, const std::vector<Vec>& new_vel);
+    // batch add with data along Eigen::Matrix columns
+    void AddData(const Eigen::Matrix<realtype,3,Eigen::Dynamic>& new_pos, const Eigen::Matrix<realtype,3,Eigen::Dynamic>& new_vel );
+    // clear all training data
+    void ClearData(){
+        gpr_.ClearTrainingData();
+    };
 };
 
 #include "locally_modulated_ds/gp_modulated_ds.hxx"
