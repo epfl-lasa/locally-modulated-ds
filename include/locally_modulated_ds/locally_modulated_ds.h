@@ -16,7 +16,7 @@ class LocallyModulatedDS {
       original_dynamics_ = original_dynamics;
     }
 
-    std::function<Vec(Vec)> getOriginalDynamics() const {
+    std::function<Vec(Vec)> get_original_dynamics() const {
       return original_dynamics_;
     }
 

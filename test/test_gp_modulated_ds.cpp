@@ -87,8 +87,8 @@ TEST_F(GPMDSTest, DynamicsTestStuff) {
 
 TEST_F(GPMDSTest, CreateObject) {
   GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
-  ASSERT_NE(nullptr, gpmds.getOriginalDynamics());
-  ASSERT_TRUE((bool) gpmds.getOriginalDynamics());
+  ASSERT_NE(nullptr, gpmds.get_original_dynamics());
+  ASSERT_TRUE((bool) gpmds.get_original_dynamics());
 }
 
 TEST_F(GPMDSTest, GetOutputZeroTest) {

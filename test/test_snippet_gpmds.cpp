@@ -37,14 +37,14 @@ TEST_F(SnippetTest, EmptyConstructorTest) {
   // Passing null dynamics results in null original dynamics.
   snippet_gpmds_.reset(new SnippetGPMDS());
   ASSERT_NE(nullptr, snippet_gpmds_->gp_mds_);  // not null
-  ASSERT_EQ(nullptr, snippet_gpmds_->gp_mds_->getOriginalDynamics());
+  ASSERT_EQ(nullptr, snippet_gpmds_->gp_mds_->get_original_dynamics());
 }
 
 TEST_F(SnippetTest, ConstructorTest) {
   // Ensure providing the dynamics sets them correctly.
   ASSERT_NE(nullptr, snippet_gpmds_->gp_mds_);
-  EXPECT_NE(nullptr, snippet_gpmds_->gp_mds_->getOriginalDynamics());
-  EXPECT_TRUE((bool)snippet_gpmds_->gp_mds_->getOriginalDynamics());
+  EXPECT_NE(nullptr, snippet_gpmds_->gp_mds_->get_original_dynamics());
+  EXPECT_TRUE((bool) snippet_gpmds_->gp_mds_->get_original_dynamics());
 }
 
 TEST_F(SnippetTest, TestOriginalDynamics) {
