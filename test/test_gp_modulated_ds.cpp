@@ -97,14 +97,16 @@ TEST(Basic, CreateObject) {
 }
 
 TEST(Basic, GetOutputZeroTest) {
-    GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
-    Vec3 x = gpmds.GetOutput(Vec3::Zero());
-    ASSERT_NEAR(0, x[0], FLOAT_COMPARISON_THRESHOLD);
-    ASSERT_NEAR(0, x[1], FLOAT_COMPARISON_THRESHOLD);
-    ASSERT_NEAR(0, x[2], FLOAT_COMPARISON_THRESHOLD);
+  // Call getOutput with zero input.
+  GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
+  Vec3 x = gpmds.GetOutput(Vec3::Zero());
+  ASSERT_NEAR(0, x[0], FLOAT_COMPARISON_THRESHOLD);
+  ASSERT_NEAR(0, x[1], FLOAT_COMPARISON_THRESHOLD);
+  ASSERT_NEAR(0, x[2], FLOAT_COMPARISON_THRESHOLD);
 }
 
-TEST(Basic, GetOutputZeroTest) {
+TEST(Basic, GetOutputStuffTest) {
+  // Call getOutput with some input stuff.
   GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
   Vec3 vector;
   vector << 1, 2, 3;
