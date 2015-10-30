@@ -64,16 +64,29 @@ void compare_matrices(M m1, M m2) {
   }
 }
 
-TEST(Basic, DynamicsTest) {
+TEST(Basic, DynamicsTestZero) {
   Vec3 vector = Vec3::Zero();
-  EXPECT_NEAR(0, vector(0, 0), FLOAT_COMPARISON_THRESHOLD);
-  EXPECT_NEAR(0, vector(1, 0), FLOAT_COMPARISON_THRESHOLD);
-  EXPECT_NEAR(0, vector(2, 0), FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(0, vector[0], FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(0, vector[1], FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(0, vector[2], FLOAT_COMPARISON_THRESHOLD);
 
   Vec3 output = basic_dynamics(vector);
-  EXPECT_NEAR(0, output(0, 0), FLOAT_COMPARISON_THRESHOLD);
-  EXPECT_NEAR(0, output(1, 0), FLOAT_COMPARISON_THRESHOLD);
-  EXPECT_NEAR(0, output(2, 0), FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(0, output[0], FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(0, output[1], FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(0, output[2], FLOAT_COMPARISON_THRESHOLD);
+}
+
+TEST(Basic, DynamicsTestStuff) {
+  Vec3 vector;
+  vector << 1, 5, 10;
+  EXPECT_NEAR(1, vector[0], FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(5, vector[1], FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(10, vector[2], FLOAT_COMPARISON_THRESHOLD);
+
+  Vec3 output = basic_dynamics(vector);
+  EXPECT_NEAR(-1, output[0], FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(-5, output[1], FLOAT_COMPARISON_THRESHOLD);
+  EXPECT_NEAR(-10, output[2], FLOAT_COMPARISON_THRESHOLD);
 }
 
 
@@ -83,14 +96,22 @@ TEST(Basic, CreateObject) {
   ASSERT_TRUE((bool) gpmds.getOriginalDynamics());
 }
 
-
-
-TEST(Basic, GetOutput) {
+TEST(Basic, GetOutputZeroTest) {
     GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
     Vec3 x = gpmds.GetOutput(Vec3::Zero());
-    ASSERT_NEAR(0, x(0, 0), FLOAT_COMPARISON_THRESHOLD);
-    ASSERT_NEAR(0, x(1, 0), FLOAT_COMPARISON_THRESHOLD);
-    ASSERT_NEAR(0, x(2, 0), FLOAT_COMPARISON_THRESHOLD);
+    ASSERT_NEAR(0, x[0], FLOAT_COMPARISON_THRESHOLD);
+    ASSERT_NEAR(0, x[1], FLOAT_COMPARISON_THRESHOLD);
+    ASSERT_NEAR(0, x[2], FLOAT_COMPARISON_THRESHOLD);
+}
+
+TEST(Basic, GetOutputZeroTest) {
+  GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
+  Vec3 vector;
+  vector << 1, 2, 3;
+  auto x = snippet_gpmds_->gp_mds_->GetOutput(vector);
+  EXPECT_NEAR(-1, x[0], EPS_THRESH);
+  EXPECT_NEAR(-2, x[1], EPS_THRESH);
+  EXPECT_NEAR(-3, x[2], EPS_THRESH);
 }
 
 TEST(Basic, FindFiles) {
