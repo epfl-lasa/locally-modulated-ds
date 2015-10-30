@@ -49,7 +49,7 @@ TEST_F(SnippetTest, ConstructorTest) {
 TEST_F(SnippetTest, GetOutputTest) {
   // Without any modulation, the result of GetOutput is simply the original
   // dynamics.
-  auto x = snippet_gpmds_->gp_mds_->GetOutput(GPMDS::Vec());
+  auto x = snippet_gpmds_->gp_mds_->GetOutput(GPMDS::Vec::Zero());
   ASSERT_NEAR(0, x[0], EPS_THRESH);
   ASSERT_NEAR(0, x[1], EPS_THRESH);
   ASSERT_NEAR(0, x[2], EPS_THRESH);
@@ -59,7 +59,7 @@ TEST_F(SnippetTest, TestOriginalDynamics) {
   // Make sure the original dynamics are valid.
   ASSERT_NE(nullptr, original_dynamics);
   ASSERT_TRUE((bool)original_dynamics);
-  auto x = dynamics_fun(GPMDS::Vec());
+  auto x = dynamics_fun(GPMDS::Vec::Zero());
   ASSERT_NEAR(0, x[0], EPS_THRESH);
   ASSERT_NEAR(0, x[1], EPS_THRESH);
   ASSERT_NEAR(0, x[2], EPS_THRESH);
