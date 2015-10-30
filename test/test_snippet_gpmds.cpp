@@ -4,8 +4,6 @@
 #include "snippet_gpmds/snippet_gpmds.h"
 #include <memory>
 
-#define EPS_THRESH 1e-12
-
 
 namespace {
 
@@ -15,6 +13,8 @@ GPMDS::Vec original_dynamics(GPMDS::Vec pose) {
 }
 using Vec = GPMDS::Vec;
 std::function<Vec(Vec)> dynamics_fun = original_dynamics;
+
+static double EPS_THRESH = 1.0e-12;
 
 class SnippetTest : public ::testing::Test {
 
