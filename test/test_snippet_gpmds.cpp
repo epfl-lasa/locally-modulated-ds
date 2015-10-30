@@ -13,7 +13,8 @@ using GPMDS = GaussianProcessModulatedDS<double>;
 GPMDS::Vec original_dynamics(GPMDS::Vec pose) {
   return -1.0 * pose;
 }
-std::function<GPMDS::Vec(GPMDS::Vec)> dynamics_fun = original_dynamics;
+using Vec = GPMDS::Vec;
+std::function<Vec(Vec)> dynamics_fun = original_dynamics;
 
 class SnippetTest : public ::testing::Test {
 
@@ -50,7 +51,7 @@ TEST_F(SnippetTest, TestOriginalDynamics) {
   // Make sure the original dynamics are valid -- sanity checking.
   ASSERT_NE(nullptr, original_dynamics);
   ASSERT_TRUE((bool)original_dynamics);
-  auto x = dynamics_fun(GPMDS::Vec::Zero());
+  auto x = dynamics_fun(Vec::Zero());
   EXPECT_NEAR(0, x[0], EPS_THRESH);
   EXPECT_NEAR(0, x[1], EPS_THRESH);
   EXPECT_NEAR(0, x[2], EPS_THRESH);

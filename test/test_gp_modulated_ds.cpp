@@ -89,7 +89,6 @@ TEST(Basic, DynamicsTestStuff) {
   EXPECT_NEAR(-10, output[2], FLOAT_COMPARISON_THRESHOLD);
 }
 
-
 TEST(Basic, CreateObject) {
   GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
   ASSERT_NE(nullptr, gpmds.getOriginalDynamics());
