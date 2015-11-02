@@ -142,6 +142,17 @@ TEST_F(GPMDSTest, PureRotation162) {
   compare_matrices(gpmds_result, correct_result);
 }
 
+TEST_F(GPMDSTest, PureScale) {
+  Vec3 no_rotation = Vec3::Zero();
+  float scale = 0.22;
+  auto gpmds_result = gp_mds_->ModulationFunction(no_rotation, scale);
+  Mat3 correct_result = Mat3::Identity();
+  correct_result *= scale+1.0;
+  compare_matrices(gpmds_result, correct_result);
+}
+
+
+
 
 int main(int argc, char *argv[]) {
   testing::InitGoogleTest(&argc, argv);
