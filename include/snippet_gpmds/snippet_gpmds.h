@@ -22,5 +22,4 @@ class SnippetGPMDS {
     std::unique_ptr<GaussianProcessModulatedDS<double>> gp_mds_;
 };
 
-
 #endif //PROJECT_SNIPPET_GPMDS_H

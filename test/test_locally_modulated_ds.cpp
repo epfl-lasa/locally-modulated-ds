@@ -39,16 +39,16 @@ class TestLocallyMDS : public ::testing::Test {
 TEST_F(TestLocallyMDS, StartWithNoDynamics) {
   // LMDS starts with no original dynamics. Cast to bool = false means the
   // function is not callable.
-  ASSERT_EQ(nullptr, lmds_.getOriginalDynamics());
-  ASSERT_FALSE((bool)lmds_.getOriginalDynamics());
+  ASSERT_EQ(nullptr, lmds_.get_original_dynamics());
+  ASSERT_FALSE((bool) lmds_.get_original_dynamics());
 
 }
 
 TEST_F(TestLocallyMDS, SetDynamics) {
   // Set the dynamics, it should no longer be null.
   lmds_.set_original_dynamics(basic_dynamics);
-  ASSERT_NE(nullptr, lmds_.getOriginalDynamics());
-  ASSERT_TRUE((bool)lmds_.getOriginalDynamics());
+  ASSERT_NE(nullptr, lmds_.get_original_dynamics());
+  ASSERT_TRUE((bool) lmds_.get_original_dynamics());
 }
 
 TEST_F(TestLocallyMDS, IdiotTest){
