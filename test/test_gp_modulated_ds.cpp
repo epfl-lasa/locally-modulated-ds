@@ -31,9 +31,11 @@ Mat3 load_matrix_3x3(const char *fname) {
   return mat;
 }
 
+
 Vec3 basic_dynamics(Vec3 pos) {
   return -1.0 * pos;
 }
+
 
 template<typename M>
 void compare_matrices(M m1, M m2) {
@@ -101,7 +103,6 @@ TEST_F(GPMDSTest, GetOutputZeroTest) {
 
 TEST_F(GPMDSTest, GetOutputStuffTest) {
   // Call getOutput with some input stuff.
-  GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
   Vec3 vector;
   vector << 1, 2, 3;
   auto x =gp_mds_->GetOutput(vector);
@@ -121,24 +122,55 @@ TEST_F(GPMDSTest, FindFiles) {
 }
 
 TEST_F(GPMDSTest, PureRotation45) {
-  GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
   auto correct_result = load_matrix_3x3("R45z.txt");
   Vec3 z_axis_45;
   z_axis_45.setZero();
   z_axis_45(2) = deg_to_rad(45.0);
-  auto gpmds_result = gpmds.ModulationFunction(z_axis_45, 0.0);
+  auto gpmds_result = gp_mds_->ModulationFunction(z_axis_45, 0.0);
   compare_matrices(gpmds_result, correct_result);
 }
 
 TEST_F(GPMDSTest, PureRotation162) {
-  GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
   auto correct_result = load_matrix_3x3("R162z.txt");
   Vec3 z_axis_162;
   z_axis_162.setZero();
   z_axis_162(2) = deg_to_rad(162.0);
-  auto gpmds_result = gpmds.ModulationFunction(z_axis_162, 0.0);
+  auto gpmds_result = gp_mds_->ModulationFunction(z_axis_162, 0.0);
   compare_matrices(gpmds_result, correct_result);
 }
+
+TEST_F(GPMDSTest, PureScale) {
+  Vec3 no_rotation = Vec3::Zero();
+  float scale = 0.22;
+  auto gpmds_result = gp_mds_->ModulationFunction(no_rotation, scale);
+  Mat3 correct_result = Mat3::Identity();
+  correct_result *= scale+1.0;
+  compare_matrices(gpmds_result, correct_result);
+}
+
+TEST_F(GPMDSTest, Rotate162AndScale) {
+  auto correct_result = load_matrix_3x3("R162z.txt");
+  Vec3 z_axis_162;
+  z_axis_162.setZero();
+  z_axis_162(2) = deg_to_rad(162.0);
+  float scale = 0.22;
+  correct_result *= scale + 1.0;
+  auto gpmds_result = gp_mds_->ModulationFunction(z_axis_162, scale);
+  compare_matrices(gpmds_result, correct_result);
+}
+
+TEST_F(GPMDSTest, RotateAxisAndScale) {
+  auto correct_result = load_matrix_3x3("R_test_case_234.txt");
+  Vec3 aa = Vec3::Ones();
+  aa *= 1.0/sqrt(3.0);
+  float angle = 0.234;
+  float scale = 0.22;
+  correct_result *= scale + 1.0;
+  auto gpmds_result = gp_mds_->ModulationFunction(aa*angle, scale);
+  compare_matrices(gpmds_result, correct_result);
+}
+
+
 
 
 int main(int argc, char *argv[]) {
@@ -146,19 +178,3 @@ int main(int argc, char *argv[]) {
   return RUN_ALL_TESTS();
 }
 
-// void load_data(const char *fname, vector<input_type> &inputs, vector<output_type> &outputs, int input_dim, int output_dim) {
-//   input_type inp,tinp;
-//   output_type outp,toutp;
-//   ifstream myfile(fname);
-//   ASSERT_TRUE(myfile);
-//   string line;
-//   while(getline(myfile,line)){
-//     istringstream line_stream(line);
-//     for(size_t k = 0; k < input_dim; k++)
-//       line_stream>>inp(k);
-//     for(size_t k = 0; k < output_dim; k++)
-//       line_stream>>outp(k);
-//     inputs.push_back(inp);
-//     outputs.push_back(outp);
-//   }
-// }
