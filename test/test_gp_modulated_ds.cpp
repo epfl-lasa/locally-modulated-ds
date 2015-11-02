@@ -148,6 +148,28 @@ TEST_F(GPMDSTest, PureScale) {
   compare_matrices(gpmds_result, correct_result);
 }
 
+TEST_F(GPMDSTest, Rotate162AndScale) {
+  auto correct_result = load_matrix_3x3("R162z.txt");
+  Vec3 z_axis_162;
+  z_axis_162.setZero();
+  z_axis_162(2) = deg_to_rad(162.0);
+  float scale = 0.22;
+  correct_result *= scale + 1.0;
+  auto gpmds_result = gp_mds_->ModulationFunction(z_axis_162, scale);
+  compare_matrices(gpmds_result, correct_result);
+}
+
+TEST_F(GPMDSTest, RotateAxisAndScale) {
+  auto correct_result = load_matrix_3x3("R_test_case_234.txt");
+  Vec3 aa = Vec3::Ones();
+  aa *= 1.0/sqrt(3.0);
+  float angle = 0.234;
+  float scale = 0.22;
+  correct_result *= scale + 1.0;
+  auto gpmds_result = gp_mds_->ModulationFunction(aa*angle, scale);
+  compare_matrices(gpmds_result, correct_result);
+}
+
 
 
 
