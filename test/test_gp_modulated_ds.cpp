@@ -103,7 +103,6 @@ TEST_F(GPMDSTest, GetOutputZeroTest) {
 
 TEST_F(GPMDSTest, GetOutputStuffTest) {
   // Call getOutput with some input stuff.
-  GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
   Vec3 vector;
   vector << 1, 2, 3;
   auto x =gp_mds_->GetOutput(vector);
@@ -123,22 +122,20 @@ TEST_F(GPMDSTest, FindFiles) {
 }
 
 TEST_F(GPMDSTest, PureRotation45) {
-  GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
   auto correct_result = load_matrix_3x3("R45z.txt");
   Vec3 z_axis_45;
   z_axis_45.setZero();
   z_axis_45(2) = deg_to_rad(45.0);
-  auto gpmds_result = gpmds.ModulationFunction(z_axis_45, 0.0);
+  auto gpmds_result = gp_mds_->ModulationFunction(z_axis_45, 0.0);
   compare_matrices(gpmds_result, correct_result);
 }
 
 TEST_F(GPMDSTest, PureRotation162) {
-  GaussianProcessModulatedDS<float> gpmds(basic_dynamics);
   auto correct_result = load_matrix_3x3("R162z.txt");
   Vec3 z_axis_162;
   z_axis_162.setZero();
   z_axis_162(2) = deg_to_rad(162.0);
-  auto gpmds_result = gpmds.ModulationFunction(z_axis_162, 0.0);
+  auto gpmds_result = gp_mds_->ModulationFunction(z_axis_162, 0.0);
   compare_matrices(gpmds_result, correct_result);
 }
 
