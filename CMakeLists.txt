@@ -25,7 +25,7 @@ SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES locally_modulated_ds
-#  CATKIN_DEPENDS other_catkin_pkg
+CATKIN_DEPENDS gaussian_process_regression
 #  DEPENDS system_lib
 )
 

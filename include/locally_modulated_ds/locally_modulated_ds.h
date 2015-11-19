@@ -1,3 +1,8 @@
+#ifndef LOCALLY_MODULATED_DS_H
+#define LOCALLY_MODULATED_DS_H
+
+
+
 #include <functional>
 
 
@@ -28,3 +33,4 @@ class LocallyModulatedDS {
     }
 };
 
+#endif /* LOCALLY_MODULATED_DS_H */
