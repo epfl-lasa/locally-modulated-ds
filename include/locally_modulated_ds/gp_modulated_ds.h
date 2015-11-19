@@ -28,7 +28,7 @@ class GaussianProcessModulatedDS
     : LocallyModulatedDS<Vec, Mat>(original_dynamics),
     gpr_(new GaussianProcessRegression<realtype>(3, 4)) {
 
-    gpr_->SetHyperParams(0.5,1.0,0.00002);
+    gpr_->SetHyperParams(3.2,1.0,0.02);
   };
 
   virtual ~GaussianProcessModulatedDS() { };
@@ -39,9 +39,9 @@ class GaussianProcessModulatedDS
   // add a single training point
   void AddData(const Vec &new_pos, const Vec &new_vel);
   // batch add with data in std vector
-  void AddData(const std::vector<Vec>& new_pos, const std::vector<Vec>& new_vel);
+  void AddDataBatch(const std::vector<Vec>& new_pos, const std::vector<Vec>& new_vel);
   // batch add with data along Eigen::Matrix columns
-  void AddData(const Eigen::Matrix<realtype,3,Eigen::Dynamic>& new_pos, const Eigen::Matrix<realtype,3,Eigen::Dynamic>& new_vel );
+  void AddDataBatch(const Eigen::Matrix<realtype,3,Eigen::Dynamic>& new_pos, const Eigen::Matrix<realtype,3,Eigen::Dynamic>& new_vel );
   // clear all training data
     
   void ClearData(){

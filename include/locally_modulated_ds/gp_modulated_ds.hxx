@@ -58,7 +58,7 @@ void GaussianProcessModulatedDS<R>::AddData(const Vec& new_pos, const Vec& new_v
 
 // batch add data stored in std::vectors 
 template <typename R>
-void GaussianProcessModulatedDS<R>::AddData(const std::vector<Vec>& new_pos, const std::vector<Vec>& new_vel){
+void GaussianProcessModulatedDS<R>::AddDataBatch(const std::vector<Vec>& new_pos, const std::vector<Vec>& new_vel){
   // create matrices and put all the data there
   Eigen::Matrix<R,3,Eigen::Dynamic> inputs;
   Eigen::Matrix<R,4,Eigen::Dynamic> reshaping_params;
@@ -74,7 +74,7 @@ void GaussianProcessModulatedDS<R>::AddData(const std::vector<Vec>& new_pos, con
 
 // batch add data along Eigen::Matrix columns
 template <typename R>
-void GaussianProcessModulatedDS<R>::AddData(const Eigen::Matrix<R,3,Eigen::Dynamic>& new_pos, const Eigen::Matrix<R,3,Eigen::Dynamic>& new_vel ){
+void GaussianProcessModulatedDS<R>::AddDataBatch(const Eigen::Matrix<R,3,Eigen::Dynamic>& new_pos, const Eigen::Matrix<R,3,Eigen::Dynamic>& new_vel ){
   Eigen::Matrix<R,4,Eigen::Dynamic> reshaping_params;
   reshaping_params.resize(4,new_vel.cols());
   for (size_t k=0; k<reshaping_params.cols(); ++k)
