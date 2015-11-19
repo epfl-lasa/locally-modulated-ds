@@ -42,7 +42,7 @@ void compare_matrices(M m1, M m2) {
   ASSERT_EQ(m1.rows(), m2.rows());
   ASSERT_EQ(m1.cols(), m2.cols());
   for (size_t row = 0; row < m1.rows(); row++) {
-    for (size_t col = 0; col < m1.rows(); col++) {
+    for (size_t col = 0; col < m1.cols(); col++) {
       ASSERT_NEAR(m1(row, col), m2(row, col), FLOAT_COMPARISON_THRESHOLD);
     }
   }
@@ -170,7 +170,66 @@ TEST_F(GPMDSTest, RotateAxisAndScale) {
   compare_matrices(gpmds_result, correct_result);
 }
 
+TEST_F(GPMDSTest, ComputeReshapingParams){
+  Vec3 act_vel,org_vel;
+  org_vel << 1.0, 0.0, 0.0;
+  act_vel << 0.0, 2.0, 0.0;
+  auto res = ComputeReshapingParameters(act_vel, org_vel);
+  auto scale = res(3);
+  Vec3 aa;
+  for (int i = 0; i < 3; ++i)
+    {
+      aa(i) = res(i);
+    }
+  auto angle = aa.norm();
+  EXPECT_NEAR(scale,1.0,1e-4);
+  EXPECT_NEAR(angle,M_PI/2.0,1e-4);
+  auto ax = aa;
+  ax /= angle;
+  Vec3 z;
+  z<<0.,0.,1.;
+  compare_matrices<Vec3>(ax,z);
+}
 
+TEST_F(GPMDSTest,ParamModulationPipeline){
+  Vec3 org_vel, act_vel;
+  org_vel<<1.0,1.0,1.0;
+  act_vel<<-2.0,0.0,3.5;
+  auto params = ComputeReshapingParameters(act_vel, org_vel);
+  Vec3 aa;
+  for (int i = 0; i < 3; ++i)
+      aa(i) = params(i);
+  auto re_vel = gp_mds_->ModulationFunction(aa, params(3))*org_vel;
+  compare_matrices<Vec3>(act_vel,re_vel);
+}
+
+TEST_F(GPMDSTest, OneTrainingPoint){
+  Vec3 training_pos;
+  training_pos << 1,2,3;
+  Vec3 training_vel;
+  training_vel << -1.0,-2.0,0.0;
+  gp_mds_->AddData(training_pos, training_vel);
+  auto re_vel = gp_mds_->GetOutput(training_pos);
+  compare_matrices<Vec3>(training_vel,re_vel);
+}
+
+TEST_F(GPMDSTest, AccessToGPR){
+  Vec3 training_pos;
+  training_pos << 1,2,3;
+  Vec3 training_vel;
+  training_vel << -1.0,-2.0,0.0;
+  gp_mds_->AddData(training_pos, training_vel);
+  Vec3 test_pos;
+  test_pos << 1,2.4,3.3;
+  auto re_vel = gp_mds_->GetOutput(test_pos);
+  auto gpr = gp_mds_->get_gpr();
+  gpr->SetHyperParams(1.2,0.3,0.02);
+  auto re_vel2 = gp_mds_->GetOutput(test_pos);
+  for (int i = 0; i < 3; ++i)
+    {
+      EXPECT_TRUE( fabs(re_vel(i) - re_vel2(i)) > 1e-2 );
+    }
+}
 
 
 int main(int argc, char *argv[]) {

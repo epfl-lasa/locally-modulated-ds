@@ -4,14 +4,14 @@
 template <typename R>
 const R GaussianProcessModulatedDS<R>::MIN_ANGLE = 0.001;
 
-
 template <typename R>
 Eigen::Matrix<R,4,1> ComputeReshapingParameters(const Eigen::Matrix<R,3,1>& act_vel, const Eigen::Matrix<R,3,1>& org_vel){
   Eigen::Matrix<R,4,1> theta;
-  auto kappa = act_vel.norm()/org_vel.norm() - 1;
-  if(org_vel.norm() > 1e-3)
-    kappa = 1.0;
-
+  // first, speed scaling with bias
+  R kappa;
+  kappa = act_vel.norm()/org_vel.norm() - 1;
+  // add something to deal with low org_vel here!
+  
   Eigen::Quaternion<R> q;
   q.setFromTwoVectors(org_vel,act_vel);
   Eigen::AngleAxis<R> aa(q);
