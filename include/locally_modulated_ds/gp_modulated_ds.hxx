@@ -21,6 +21,7 @@ Eigen::Matrix<R,4,1> ComputeReshapingParameters(const Eigen::Matrix<R,3,1>& act_
   return theta;
 }
 
+
 template <typename R>
 typename GaussianProcessModulatedDS<R>::Mat GaussianProcessModulatedDS<R>::ModulationFunction(const Vec& angle_axis, R speed_scaling){
   auto angle = angle_axis.norm();
@@ -32,7 +33,15 @@ typename GaussianProcessModulatedDS<R>::Mat GaussianProcessModulatedDS<R>::Modul
     Eigen::AngleAxis<R> aa(angle,axis);
     modulation_matrix = aa.toRotationMatrix();
   }
-    modulation_matrix *= (speed_scaling+1);
+  // We do not allow speed scaling to stop the motion.
+  R speed_scaling_final = speed_scaling + 1.0;
+  if(speed_scaling_final < 0.5){
+    speed_scaling_final = 0.5;
+    std::cout<<"thresholding! before: "<<speed_scaling+1.0<<" after: "<<speed_scaling_final<<std::endl;
+  }
+  // temporary hack to keep original velocity:
+  speed_scaling_final = 1.0;
+  modulation_matrix *= speed_scaling_final;
     return modulation_matrix;
 }
 
