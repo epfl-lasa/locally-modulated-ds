@@ -42,6 +42,10 @@ add_library(snippet_gpmds
         src/snippet_gpmds.cpp
 )
 
+add_library(spline_modulated_ds
+        src/spline_modulated_ds.cpp
+)
+
 
 add_executable(run_snippet_gpmds
         src/run_snippet_gpmds.cpp
@@ -56,6 +60,10 @@ target_link_libraries(run_snippet_gpmds snippet_gpmds)
 ## Add gtest based cpp test target and link libraries
 catkin_add_gtest(lmds-test test/test_locally_modulated_ds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
 catkin_add_gtest(gpmds-test test/test_gp_modulated_ds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+
+catkin_add_gtest(spline-test test/test_spline_modulated_ds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+target_link_libraries(spline-test spline_modulated_ds)
+
 catkin_add_gtest(snippet_gpmds-test test/test_snippet_gpmds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
 target_link_libraries(snippet_gpmds-test snippet_gpmds)
 catkin_add_gtest(snippet-test test/test_snippet.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
