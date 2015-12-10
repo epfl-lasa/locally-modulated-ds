@@ -208,6 +208,10 @@ TEST_F(GPMDSTest, OneTrainingPoint){
   training_pos << 1,2,3;
   Vec3 training_vel;
   training_vel << -1.0,-2.0,0.0;
+  // need to set a low sigma_n for this test to pass
+  // the other paramters do not matter
+  // SetHyperParams(length_scale, sigma_f, simga_n)
+  gp_mds_->get_gpr()->SetHyperParams(0.2,1.0,0.0000001);
   gp_mds_->AddData(training_pos, training_vel);
   auto re_vel = gp_mds_->GetOutput(training_pos);
   compare_matrices<Vec3>(training_vel,re_vel);
