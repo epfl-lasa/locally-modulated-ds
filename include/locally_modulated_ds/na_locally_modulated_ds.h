@@ -4,35 +4,38 @@
 
 
 #include <functional>
-
+#include <iostream>
 
 template<typename Vec, typename Mat>
 class NA_LocallyModulatedDS {
- protected:
+protected:
     std::function<Vec(Vec)> original_dynamics_;
- public:
+public:
     NA_LocallyModulatedDS() { };
 
     NA_LocallyModulatedDS(std::function<Vec(Vec)> original_dynamics) {
-      set_original_dynamics(original_dynamics);
+        set_original_dynamics(original_dynamics);
     };
 
     void set_original_dynamics(std::function<Vec(Vec)> original_dynamics) {
-      original_dynamics_ = original_dynamics;
+        original_dynamics_ = original_dynamics;
     }
 
     std::function<Vec(Vec)> get_original_dynamics() const {
-      return original_dynamics_;
+        return original_dynamics_;
     }
 
     // pure virtual methods
     virtual Mat ModulationFunction(const Vec &) = 0;
-//    virtual Mat ExternalModulationFunction(const Vec &) = 0;
-    virtual Mat ExternalModulationFunction(const Mat&, const Vec &) = 0;
+    //    virtual Mat ExternalModulationFunction(const Vec &) = 0;
+    //    virtual Mat ExternalModulationFunction(const Mat&, const Vec &) = 0;
+    virtual Mat ExternalModulationFunction(const Mat&, double) = 0;
 
-    virtual Vec GetOutput(const Vec &in, const Vec &ext) {
-//      return ExternalModulationFunction(ext) * ModulationFunction(in) * original_dynamics_(in);
-      return ExternalModulationFunction(ModulationFunction(in), ext) * original_dynamics_(in);
+    //    virtual Vec GetOutput(const Vec &in, const Vec &ext) {
+    virtual Vec GetOutput(const Vec &in, double ext) {
+        //      return ExternalModulationFunction(ext) * ModulationFunction(in) * original_dynamics_(in);
+        return ExternalModulationFunction(ModulationFunction(in), ext) * original_dynamics_(in);
+        //      return original_dynamics_(in);
     }
 };
 
