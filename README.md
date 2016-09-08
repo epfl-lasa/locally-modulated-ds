@@ -12,7 +12,6 @@ Publication:
 
 ## A Minimal example
 
-Start by defining some original dynamcics:
 ```c++
 #include "locally_modulated_ds/linear_velocity_fields.h
 #include "locally_modulated_ds/gp_modulated_ds.h

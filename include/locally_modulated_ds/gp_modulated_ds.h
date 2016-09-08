@@ -5,7 +5,9 @@
 #include "locally_modulated_ds/locally_modulated_ds.h"
 #include "gaussian_process_regression/gaussian_process_regression.h"
 #include <memory>
-
+/** 
+    \brief Implementation of GP-MDS. 
+ */
 template<typename realtype>
 class GaussianProcessModulatedDS
   : public LocallyModulatedDS<Eigen::Matrix<realtype, 3, 1>,
@@ -23,6 +25,12 @@ class GaussianProcessModulatedDS
 
   // A Dynamical System is a function that maps position to velocity.
   typedef std::function<Vec(Vec)> DynamicalSystem;
+  /** 
+      \brief Constructor.
+
+      @param original_dynamics a function handle for evaluating the original dynamics
+
+  */
 
   GaussianProcessModulatedDS(DynamicalSystem original_dynamics)
     : LocallyModulatedDS<Vec, Mat>(original_dynamics),
@@ -36,19 +44,43 @@ class GaussianProcessModulatedDS
   virtual Mat ModulationFunction(const Vec &in);
   Mat ModulationFunction(const Vec& aa,realtype speed_scaling);
     
-  // add a single training point
+  /** 
+      \brief Add a single trianing pointa
+
+  */
+
+
   void AddData(const Vec &new_pos, const Vec &new_vel);
-  // batch add with data in std vector
+  /** 
+
+      \brief Batch add training data
+
+  */
+
   void AddDataBatch(const std::vector<Vec>& new_pos, const std::vector<Vec>& new_vel);
-  // batch add with data along Eigen::Matrix columns
+
+    /** 
+
+      \brief Batch add training data
+
+  */
+
   void AddDataBatch(const Eigen::Matrix<realtype,3,Eigen::Dynamic>& new_pos, const Eigen::Matrix<realtype,3,Eigen::Dynamic>& new_vel );
-  // clear all training data
-    
+
+  /** 
+
+      \brief Clear all training data
+
+  */
   void ClearData(){
     gpr_->ClearTrainingData();
   };
+  /** 
 
-  // get pointer to gpr
+      \brief Get a pointer to GPR
+
+  */
+
   std::shared_ptr<GaussianProcessRegression<realtype> > get_gpr(){return gpr_;};
     
 

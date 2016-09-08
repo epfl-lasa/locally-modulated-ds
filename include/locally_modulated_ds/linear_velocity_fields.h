@@ -87,6 +87,5 @@ void set_target(const Vec &target){
 
 
 
-
 #endif // LINEAR_VELOCITY_FIELDS_H
 
