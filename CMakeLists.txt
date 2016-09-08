@@ -37,16 +37,6 @@ CATKIN_DEPENDS gaussian_process_regression
 ## Your package locations should be listed before other locations
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-## Declare a cpp library
-add_library(snippet_gpmds
-        src/snippet_gpmds.cpp
-)
-
-
-add_executable(run_snippet_gpmds
-        src/run_snippet_gpmds.cpp
-)
-target_link_libraries(run_snippet_gpmds snippet_gpmds)
 
 
 #############
@@ -56,9 +46,5 @@ target_link_libraries(run_snippet_gpmds snippet_gpmds)
 ## Add gtest based cpp test target and link libraries
 catkin_add_gtest(lmds-test test/test_locally_modulated_ds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
 catkin_add_gtest(gpmds-test test/test_gp_modulated_ds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
-catkin_add_gtest(snippet_gpmds-test test/test_snippet_gpmds.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
-target_link_libraries(snippet_gpmds-test snippet_gpmds)
-catkin_add_gtest(snippet-test test/test_snippet.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
-target_link_libraries(snippet-test)
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
