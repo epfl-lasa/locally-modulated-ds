@@ -2,7 +2,10 @@
 #define LINEAR_VELOCITY_FIELDS_H
 
 #include "eigen3/Eigen/Dense"
+/** 
+    \brief Class rerpresenting linear dynamical systems, useful to use as orginal dynamics for locally modulated dynamical systems
 
+ */
 class LinearVelocityField{
 public:
   typedef double realtype;
@@ -14,12 +17,28 @@ private:
   Mat A_;
   realtype speedcap_;
 public:
+  /** 
+      \brief Constructor.
+
+      @param target a vector for setting the equilibrium point of the DS
+      @param A the system matrix defining the DS
+      @param speedcap for saturating the output rate
+
+  */
 
   LinearVelocityField(Vec target,Mat A,realtype speedcap){
   target_ = target;
   A_ = A;
   speedcap_=speedcap;
 }
+
+  /** 
+      \brief Evaluate the DS at the provided location.
+
+      @param pos a vector where you want to get the corresponding velocity
+
+  */
+
   Vec ComputeVelocity(const Vec& pos){
   Vec vel = A_*(pos-target_);
   if(vel.norm()>speedcap_){
@@ -28,6 +47,12 @@ public:
 }
   return vel;
 }
+  /** 
+      \brief Evaluate as a function call. 
+
+      @param pos a vector where you want to get the corresponding velocity
+
+  */
 
   Vec operator()(const Vec& pos){
   return this->ComputeVelocity(pos);
@@ -35,7 +60,7 @@ public:
   Vec target() const{
   return target_;
 }
-  void set_target(const Vec &target){
+void set_target(const Vec &target){
   target_ = target;
 }
 };
