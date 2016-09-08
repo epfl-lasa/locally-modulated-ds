@@ -46,6 +46,14 @@ auto output_vel = gpmds_->GetOutput(test_pos);
 
 ```
 
+## Documentation
+You can get some basic source code documentation by running doxygen.
+
+```
+sudo apt-get install doxygen
+roscd locally_modulated_ds
+doxygen Doxyfile
+```
 
 
 [![Build Status](https://magnum.travis-ci.com/epfl-lasa/locally-modulated-ds.svg?token=BqUQb763tsVV4QyzLgBy&branch=master)](https://magnum.travis-ci.com/epfl-lasa/locally-modulated-ds)
