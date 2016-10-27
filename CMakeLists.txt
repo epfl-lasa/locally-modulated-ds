@@ -36,10 +36,13 @@ CATKIN_DEPENDS gaussian_process_regression
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(include ${catkin_INCLUDE_DIRS})
+FILE(GLOB theIncludeFiles include/*.h)
+#add_library(gazebo_particle_filter_plugin ${theSourceFiles} ${theIncludeFiles})
 
 ## Declare a cpp library
 add_library(snippet_gpmds
         src/snippet_gpmds.cpp
+${theIncludeFiles}
 )
 
 
