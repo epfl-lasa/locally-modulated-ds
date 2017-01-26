@@ -5,7 +5,8 @@ project(locally_modulated_ds)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  gaussian_process_regression)
+  # gaussian_process_regression
+  )
 
 
 
@@ -25,7 +26,7 @@ SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES locally_modulated_ds
-CATKIN_DEPENDS gaussian_process_regression
+# CATKIN_DEPENDS gaussian_process_regression
 #  DEPENDS system_lib
 )
 
@@ -40,16 +41,16 @@ FILE(GLOB theIncludeFiles include/*.h)
 #add_library(gazebo_particle_filter_plugin ${theSourceFiles} ${theIncludeFiles})
 
 ## Declare a cpp library
-add_library(snippet_gpmds
-        src/snippet_gpmds.cpp
-${theIncludeFiles}
-)
+# add_library(snippet_gpmds
+#         src/snippet_gpmds.cpp
+# ${theIncludeFiles}
+# )
 
 
-add_executable(run_snippet_gpmds
-        src/run_snippet_gpmds.cpp
-)
-target_link_libraries(run_snippet_gpmds snippet_gpmds)
+# add_executable(run_snippet_gpmds
+#         src/run_snippet_gpmds.cpp
+# )
+# target_link_libraries(run_snippet_gpmds snippet_gpmds)
 
 
 #############
