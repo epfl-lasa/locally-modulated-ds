@@ -32,6 +32,11 @@ public:
         /// Version 1 as in the paper
         return ExternalModulationFunction2(in, ext) * original_dynamics_(in);
     }
+
+
+    Vec operator()(const Vec& in){
+        return this->GetOutput(in, 1.0);
+    }
 };
 
 #endif /* LOCALLY_MODULATED_DS_H */
