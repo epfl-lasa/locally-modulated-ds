@@ -26,20 +26,16 @@ public:
     }
 
     // pure virtual methods
-    virtual Mat ModulationFunction(const Vec &) = 0;
-    //    virtual Mat ExternalModulationFunction(const Vec &) = 0;
-    //    virtual Mat ExternalModulationFunction(const Mat&, const Vec &) = 0;
-    virtual Mat ExternalModulationFunction(const Mat&, double) = 0;
     virtual Mat ExternalModulationFunction2(const Vec&, double) = 0;
 
-    //    virtual Vec GetOutput(const Vec &in, const Vec &ext) {
     virtual Vec GetOutput(const Vec &in, double ext) {
-        //      return ExternalModulationFunction(ext) * ModulationFunction(in) * original_dynamics_(in);
-        /// Previous version
-        //        return ExternalModulationFunction(ModulationFunction(in), ext) * original_dynamics_(in);
         /// Version 1 as in the paper
         return ExternalModulationFunction2(in, ext) * original_dynamics_(in);
-        //      return original_dynamics_(in);
+    }
+
+
+    Vec operator()(const Vec& in){
+        return this->GetOutput(in, 1.0);
     }
 };
 
